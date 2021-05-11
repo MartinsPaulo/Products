@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Route::get('/produto', 'productsController@index')->name('products.index');
 
-Route::get('/produto/{id}', 'productsController@show')->name('products.show');
+Route::get('/produto/mostrar/{id}', 'productsController@show')->name('products.show');
 
 Route::get('/produto/alterar/{id}', 'productsController@edit')->name('products.edit');
 
@@ -27,6 +27,6 @@ Route::put('/produto/alteracao/{id}', 'productsController@update')->name('produc
 
 Route::delete('/produto/excluir/{id}', 'productsController@destroy')->name('products.destroy');
 
-Route::get('/produto/pesquisa/', 'productsController@search')->name('products.search');
-
 Route::post('/produto/store', 'productsController@store')->name('products.store');
+
+Route::any('/produto/lista', 'productsController@getBasicData')->name('products.list');

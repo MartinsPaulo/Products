@@ -2,20 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
+use Yajra\DataTables\Datatables;
+
 use Illuminate\Http\Request;
 
 class productsController extends Controller
 {
     private $Product;
 
-    public function __construct(Product $Product){ 
+    public function __construct(Product $Product){
         $this->Product = $Product;
     }
 
     public function index()
     {
-        return view('products');
+        $categories  = Category::all();
+        return view('products', compact('categories'));
     }
 
 
@@ -29,12 +33,12 @@ class productsController extends Controller
     {
         $dataform = $request->validate([
             'name' => 'required|max:150',
-            'category' => 'required|max:100',
+            'id_category' => 'required',
             'price' => 'required',
             'quantity' => 'required|integer',
             'expiration' => 'nullable|date',
         ]);
-        
+
         try{
             $this->Product->create($dataform);
 
@@ -44,8 +48,8 @@ class productsController extends Controller
         }catch(\Exception $e){
             return redirect()
                 ->back()
-                ->with('error', 'Falha ao cadastrar',$e->mesage());
-        
+                ->with('error', 'Falha ao cadastrar: '.$e->getMessage());
+
         }
     }
 
@@ -60,7 +64,8 @@ class productsController extends Controller
     public function edit($id)
     {
         $product = Product::where('id',$id)->first();
-        return view ('products-edit', compact('product'));
+        $categories  = Category::all();
+        return view ('products-edit', compact('product','categories'));
     }
 
 
@@ -68,12 +73,12 @@ class productsController extends Controller
     {
         $dataform = $request->validate([
             'name' => 'required|max:150',
-            'category' => 'required|max:100',
+            'id_category' => 'required',
             'price' => 'required',
             'quantity' => 'required|integer',
             'expiration' => 'nullable|date',
         ]);
-        
+
         $product = Product::where('id',$id)->first();
 
         try{
@@ -83,8 +88,8 @@ class productsController extends Controller
         }catch(\Exception $e){
             return redirect()
                 ->back()
-                ->with('error', 'Falha ao alterar',$e->mesage());
-        
+                ->with('error', 'Falha ao alterar: '.$e->getMessage());
+
         }
     }
 
@@ -99,13 +104,40 @@ class productsController extends Controller
         }catch(\Exception $e){
             return redirect()
                 ->back()
-                ->with('error', 'Falha ao deletar',$e->mesage());
-        
+                ->with('error', 'Falha ao deletar: '.$e->getMessage());
+
         }
     }
 
     public function search($id)
     {
         return ('pesquisa');
+    }
+
+    public function getBasicData(Request $request)
+    {
+        /*$products = Product::select(['id','name','id_category','price','quantity','expiration']);
+
+        return Datatables::of(Product::query())->make(true);*/
+        $product = Product::with('category')->select('products.*');
+
+
+        return Datatables::of($product)
+            ->editColumn('name', '{{ $name }}')
+            ->addColumn('action', function ($product) {
+                return '<a href="/produto/alterar/'.$product->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>Alterar</a>';
+            })
+            /*->addColumn('details', function ($product) {
+                return '<a href="/produto/mostrar/'.$product->id.'" class="btn btn-xs btn-primary"><i class="bi bi-file-earmark-text"></i>Detalhes</a>';
+            })*/
+            ->editColumn('expiration', function ($product) {
+                return $product->expiration->format('d/m/Y');
+            })
+            //filter column for day/month/year --optional
+            ->filterColumn('expiration', function ($query, $keyword) {
+                $query->whereRaw("DATE_FORMAT(expiration,'%Y/%m/%d') like ?", ["%$keyword%"]);
+            })
+            ->editColumn('id', 'ID: {{$id}}')
+            ->make(true);
     }
 }

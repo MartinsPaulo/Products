@@ -41,9 +41,13 @@
                 <input type="file" name="img" id="img" class="form-control col-md-5">
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12">
-                <label>Categoria</label>
-                <input type="text" name="category" name="category" id="category" class="form-control col-md-5" required value="{{$product->category}}">
-            </div> 
+                <label class="col-form-label" for="id_category">Categoria</label>
+                <select id="id_category" class="form-control col-md-12" name="id_category"> 
+                    @foreach ($categories as $category)
+                        <option name="id_category" value="{{$category->id}}" @if($category->id === $product->id_category) selected   @endif>{{ $category->name}}</option>
+                    @endforeach
+                </select>      
+            </div>
             <div class="col-lg-4 col-md-6 col-sm-12">
                 <label>Quatidade</label>
                 <input type="text" name="quantity" type="number"  class="form-control col-md-5" required value="{{$product->quantity}}">
