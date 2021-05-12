@@ -79,7 +79,7 @@ class productsController extends Controller
             'quantity' => 'required|integer',
             'expiration' => 'nullable|date',
         ]);
-
+            
         $product = Product::where('id',$id)->first();
 
         try{

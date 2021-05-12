@@ -61,7 +61,7 @@
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <label>Validade</label>
-                <input type="date" name="expiration" class="form-control col-md-12" value="{{$product->expiration}}"> 
+                <input type="date" name="expiration" class="form-control col-md-12" value="{{$product->expiration->format('Y-m-d')}}"> 
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <button class="btn btn-success btn-personalizado" type="submit">Alterar</button>
