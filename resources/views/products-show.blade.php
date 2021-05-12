@@ -35,7 +35,7 @@
                 @method('DELETE')
                 <a href="{{route('products.edit',$product->id)}}" class="btn btn-primary btn-personalizado"><img src="{{asset('edit.png')}}" alt="edit"> Alterar</a>
                 <a href="javascript:history.back()" class="btn btn-primary btn-personalizado">Voltar</a>
-                <a type="button" data-toggle="modal" data-target="#modalDelete" data-id_delete="{{$product->id}}"><img src="{{asset('delete.png')}}" alt="delete"> Excluir</a>
+                <a type="button" class="btn btn-danger btn-personalizado" data-toggle="modal" data-target="#modalDelete" data-id_delete="{{$product->id}}"><img src="{{asset('delete.png')}}" alt="delete">Excluir</a>
                 @include('general/modal-delete')
             </form>
         </div>

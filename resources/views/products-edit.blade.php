@@ -61,7 +61,8 @@
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <label>Validade</label>
-                <input type="date" name="expiration" class="form-control col-md-12" value="{{$product->expiration}}">            </div>
+                <input type="date" name="expiration" class="form-control col-md-12" value="{{$product->expiration}}"> 
+            </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <button class="btn btn-success btn-personalizado" type="submit">Alterar</button>
                 <a href="javascript:history.back()" class="btn btn-primary btn-personalizado">Voltar</a>
