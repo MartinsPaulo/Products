@@ -51,7 +51,7 @@
             </div>
             <div class="col-lg-6 col-md-8 col-sm-12">
                 <label>Preço</label>
-                <input  name="price" type="number" class="form-control" required>
+                <input  name="price" type="text" class="form-control" required>
             </div>
             <div class="col-lg-6 col-md-8 col-sm-12">
                 <label>Validade</label>
