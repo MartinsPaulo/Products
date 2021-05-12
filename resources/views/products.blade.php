@@ -1,7 +1,7 @@
 @extends('home')
 
 @section('content')
-    <div class="container mx-auto">
+    <div class="container">
         <h1>Produtos</h1>
 
         @if(session('success'))
@@ -26,43 +26,41 @@
             </div>
         @endif
 
-        <div class="row">
-            <form id="form-product" class="form" method="post" action={{route('products.store')}}>
-                @csrf
-                <div class="col-lg-8 col-md-8 col-sm-12">
-                    <label for="name" class="col-md-6">Nome</label>
-                    <input id="name" type="text" class="form-control" name="name" autofocus  maxlength="150" required>
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-12">
-                    <label>Foto</label>
-                    <input type="file" name="img" id="img" class="form-control">
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-12">
-                    <label class="col-form-label" for="id_category">Categoria</label>
-                    <select id="id_category" class="form-control" name="id_category">
-                        <option name="id_category" value=""  style="font-style: italic;">Selecione</option>
-                        @foreach ($categories as $category)
-                            <option name="id_category" value="{{ $category->id}}">{{ $category->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-12">
-                    <label>Quatidade</label>
-                    <input name="quantity" type="number"  class="form-control" required>
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-12">
-                    <label>Preço</label>
-                    <input  name="price" type="number" class="form-control" required>
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-12">
-                    <label>Validade</label>
-                    <input type="date" name="expiration" class="form-control">
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-12">
-                    <button class="btn btn-primary btn-personalizado" type="submit">Cadastrar</button>
-                </div>
-            </form>
-        </div>
+        <form id="form-product" class="form" method="post" action={{route('products.store')}}>
+            @csrf
+            <div class="col-lg-6 col-md-8 col-sm-12">
+                <label for="name">Nome</label>
+                <input id="name" type="text" class="form-control" name="name" autofocus  maxlength="150" required>
+            </div>
+            <div class="col-lg-6 col-md-8 col-sm-12">
+                <label>Foto</label>
+                <input type="file" name="img" id="img" class="form-control">
+            </div>
+            <div class="col-lg-6 col-md-8 col-sm-12">
+                <label class="col-form-label" for="id_category">Categoria</label>
+                <select id="id_category" class="form-control" name="id_category">
+                    <option name="id_category" value=""  style="font-style: italic;">Selecione</option>
+                    @foreach ($categories as $category)
+                        <option name="id_category" value="{{ $category->id}}">{{ $category->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-lg-6 col-md-8 col-sm-12">
+                <label>Quatidade</label>
+                <input name="quantity" type="number"  class="form-control" required>
+            </div>
+            <div class="col-lg-6 col-md-8 col-sm-12">
+                <label>Preço</label>
+                <input  name="price" type="number" class="form-control" required>
+            </div>
+            <div class="col-lg-6 col-md-8 col-sm-12">
+                <label>Validade</label>
+                <input type="date" name="expiration" class="form-control">
+            </div>
+            <div class="col-lg-6 col-md-8 col-sm-12">
+                <button class="btn btn-primary btn-personalizado" type="submit">Cadastrar</button>
+            </div>
+        </form>
 
         <br>
 
@@ -75,13 +73,11 @@
                     <th>Quantidade</th>
                     <th>Validade</th>
                     <th>Alterar</th>
-                    <th>Detalhes</th>
                 </tr>
             </thead>
         </table>
     </div>
     <script defer>
-
         $(function() {
             $('#products-table').DataTable({
                 processing: true,
@@ -98,6 +94,5 @@
                 ]
             });
         });
-
     </script>
 @endsection

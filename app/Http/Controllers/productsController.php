@@ -18,7 +18,8 @@ class productsController extends Controller
 
     public function index()
     {
-        $categories  = Category::all();
+        $categories  = Category::where('active','1')->get();
+
         return view('products', compact('categories'));
     }
 
@@ -64,7 +65,7 @@ class productsController extends Controller
     public function edit($id)
     {
         $product = Product::where('id',$id)->first();
-        $categories  = Category::all();
+        $categories  = Category::where('active','1')->get();
         return view ('products-edit', compact('product','categories'));
     }
 
@@ -116,11 +117,7 @@ class productsController extends Controller
 
     public function getBasicData(Request $request)
     {
-        /*$products = Product::select(['id','name','id_category','price','quantity','expiration']);
-
-        return Datatables::of(Product::query())->make(true);*/
         $product = Product::with('category')->select('products.*');
-
 
         return Datatables::of($product)
             ->editColumn('name', '{{ $name }}')
