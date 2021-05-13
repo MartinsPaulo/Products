@@ -30,3 +30,7 @@ Route::delete('/produto/excluir/{id}', 'productsController@destroy')->name('prod
 Route::post('/produto/store', 'productsController@store')->name('products.store');
 
 Route::any('/produto/lista', 'productsController@getBasicData')->name('products.list');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

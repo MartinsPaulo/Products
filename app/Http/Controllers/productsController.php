@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use Yajra\DataTables\Datatables;
-
 use Illuminate\Http\Request;
 
 class productsController extends Controller
@@ -13,6 +12,7 @@ class productsController extends Controller
     private $Product;
 
     public function __construct(Product $Product){
+        $this->middleware('auth');
         $this->Product = $Product;
     }
 
@@ -79,7 +79,7 @@ class productsController extends Controller
             'quantity' => 'required|integer',
             'expiration' => 'nullable|date',
         ]);
-            
+
         $product = Product::where('id',$id)->first();
 
         try{
@@ -97,8 +97,12 @@ class productsController extends Controller
 
     public function destroy($id)
     {
+        $product = Product::where('id',$id)->first();
+        $user = array('user' => auth()->user()->name);
+        $product->update($user);
+        Product::destroy($id);
         try{
-            Product::destroy($id);
+
                 return redirect()
                 ->route('products.index')
                 ->with('success', 'Produto excluido com sucesso!');
@@ -108,11 +112,6 @@ class productsController extends Controller
                 ->with('error', 'Falha ao deletar: '.$e->getMessage());
 
         }
-    }
-
-    public function search($id)
-    {
-        return ('pesquisa');
     }
 
     public function getBasicData(Request $request)
